@@ -11,7 +11,7 @@
             </a>
         </div>
         <form class="search-bar" action="search" method="get">
-            <input class="search-input" type="search" id="search-input" name="q" placeholder="请输入志愿者信息..."/>
+            <input class="search-input" type="search" id="search-input" name="q" placeholder="请输入查询信息..."/>
             <button class="search-button" type="submit"></button>
         </form>
         <div class="menu">
@@ -35,14 +35,14 @@
 
                 <?php if(static::$_responses['current_user']['type'] == 'personal'):?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=static::getUrl('contract/list');?>">参加志愿者服务</a>
+                        <a class="nav-link" href="<?=static::getUrl('contract/list');?>">我的问答</a>
                     </li>
                 <?php else:?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=static::getUrl('contract/create');?>">发布志愿者服务</a>
+                        <a class="nav-link" href="<?=static::getUrl('contract/create');?>">发布问答</a>
                     </li>
                     <li class="nav-item">
-                            <a class="nav-link" href="<?=static::getUrl('contract/list');?>">查看志愿者服务</a>
+                            <a class="nav-link" href="<?=static::getUrl('contract/list');?>">我的问答</a>
                     </li>
                 <?php endif;?>
                     <li class="nav-item">

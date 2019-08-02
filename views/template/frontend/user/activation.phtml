@@ -46,8 +46,11 @@
                     <?php endif;?>
                     我们发了一封激活邮件到您的邮箱:<span class="text-color-s1"><?=static::$_responses['email']?></span>.
                 </p>
+
+                <?php if (isset(static::$_responses['email'])):?>
                 <p>如果您没收到，可以<a class="button-s2 ml-1" href="/user/active/resend/true/email/<?=static::$_responses['email
                 ']?>">点击</a>重发. </p>
+                <?php endif;?>
             </div>
         <?php endif;?>
 <?php endif;?>

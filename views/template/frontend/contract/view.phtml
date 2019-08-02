@@ -1,6 +1,6 @@
 <section class="container">
     <article>
-        <header><h2>查看任务</h2></header>
+        <header><h2>查看问答</h2></header>
         <footer>
             <form method="post" action="<?=static::getUrl('contract/create');?>">
                 <div class="input-text">
@@ -10,7 +10,6 @@
                         </div>
                     <?php endif;?>
                 </div>
-
                 <?php if(isset(static::$_responses['contract'])):?>
                     <div class="input-text">
                         <label for="contract-name">任务名称</label>
@@ -20,10 +19,12 @@
                         <label for="contract-name">任务状态</label>
                         <input type="text" class="form-control" id="contract-status" name="contract[status]" value="<?=static::$_responses['contract']{0}->status?>" disabled/>
                     </div>
+                    <?php if (static::$_responses['contract']{0}->txid):?>
                     <div class="input-text">
                         <label for="contract-name">比原地址</label>
                         <input type="text" class="form-control" id="contract-txid" name="contract[txid]" value="<?=static::$_responses['contract']{0}->txid?>" disabled/>
                     </div>
+                    <?php endif;?>
                     <div class="input-text">
                         <label for="contract-name">发布者</label>
                         <input type="text" class="form-control" id="contract-announcer" name="contract[announcer]" value="<?=static::$_responses['announcer']{0}->username?>" disabled/>
@@ -37,16 +38,16 @@
                         <label for="contract-detail">任务详情</label>
                         <textarea name="contract[content]" id="contract-detail"  placeholder="<?=static::$_responses['contract']{0}->content?>" disabled></textarea>
                     </div>
-
                     <p class="text-center">
                         <a class="btn btn-primary" href="<?=static::getUrl('contract/list');?>">返回志愿者清单</a>
 
                         <?php if(!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) &&
                             static::$_responses['current_user']['type'] != 'enterprise')):?>
                         <a class="btn btn-success" href="<?=static::getUrl('contract/accept/').static::$_responses['contract']{0}->id;?>">接受任务</a>
+                        <?php else:?>
+                            <a class="btn btn-success" href="<?=static::getUrl('contract/accept/').static::$_responses['contract']{0}->id;?>">确认完成</a>
                         <?php endif;?>
                     </p>
-
                 <?php endif;?>
             </form>
         </footer>
