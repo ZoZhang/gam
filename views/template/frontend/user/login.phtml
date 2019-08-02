@@ -1,0 +1,34 @@
+<?php
+$username = isset(static::$_responses['username']) ? static::$_responses['username'] : '';
+
+?>
+
+<section class="container">
+    <article>
+        <header><h2>登陆</h2></header>
+        <footer>
+            <form method="post" action="<?=static::getUrl('user/login');?>">
+                <div class="messages">
+                    <?php if(isset(static::$_responses['message']) && !empty(static::$_responses['message'])):?>
+                        <div class="alert <?=static::$_responses['success'] ? 'alert-success': 'alert-danger'?>">
+                            <?=static::$_responses['message']?>
+                        </div>
+                    <?php endif;?>
+                </div>
+
+                <div class="input-text">
+                    <label for="username">用户名/邮箱</label>
+                    <input type="text" id="username" name="login[username]" placeholder="请输入用户名或邮箱" value="<?=$username?>">
+                </div>
+                <div class="input-text">
+                    <label for="password">密码</label>
+                    <input type="password" name="login[password]" id="password" placeholder="请输入密码">
+                </div>
+                <div class="input-text">
+                    <p><a href="<?=static::getUrl('user/forgetpassword');?>" for="password">找回密码?</a></p>
+                </div>
+                <p class="text-center"><button class="button-s1" type="submit">登陆</button></p>
+            </form>
+        </footer>
+    </article>
+</section>

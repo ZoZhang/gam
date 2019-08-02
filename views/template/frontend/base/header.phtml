@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<?=static::loadTemplate('base/head.phtml');?>
+<body class="<?=static::getPageClass();?>">
+<div class="main-page">
+<nav class="main-nav">
+    <div class="row">
+        <div class="logo">
+            <a href="/">
+                <img src="images/logo.png" class="logo-img" alt="问我呗"/>
+            </a>
+        </div>
+        <form class="search-bar" action="search" method="get">
+            <input class="search-input" type="search" id="search-input" name="q" placeholder="请输入志愿者信息..."/>
+            <button class="search-button" type="submit"></button>
+        </form>
+        <div class="menu">
+            <ul class="row">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">首页</a>
+                </li>
+                <?php if(!isset(static::$_responses['current_user'])):?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=static::getUrl('user/register');?>">注册</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=static::getUrl('user/login');?>">登陆</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" alt="个人中心" href="<?=static::getUrl('user/profil');?>">
+                            <img src="<?=static::getUrl('images/icons/account.png');?>"/>
+                        </a>
+                    </li>
+                <?php else:?>
+
+                <?php if(static::$_responses['current_user']['type'] == 'personal'):?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=static::getUrl('contract/list');?>">参加志愿者服务</a>
+                    </li>
+                <?php else:?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=static::getUrl('contract/create');?>">发布志愿者服务</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="<?=static::getUrl('contract/list');?>">查看志愿者服务</a>
+                    </li>
+                <?php endif;?>
+                    <li class="nav-item">
+                       <a class="" alt="个人中心" href="<?=static::getUrl('user/profil');?>">
+                        <?php if(static::$_responses['current_user']['avatar']):?>
+                             <img src="<?=static::getUrl('images/avatars/'.static::$_responses['current_user']['avatar']);?>"/>
+                        <?php else:?>
+                            <img src="<?=static::getUrl('images/icons/account.png');?>"/>
+                        <?php endif;?>
+                           <span><?=static::$_responses['current_user']['username']?></span>
+                        </a>
+                        <a class="logout" href="<?=static::getUrl('user/logout');?>"><span>注销</span></a>
+                    </li>
+                <?php endif;?>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main>

@@ -1,0 +1,27 @@
+server {
+    listen 80 ;
+    server_name website;
+    root /var/www/website/;
+
+    location / {
+      rewrite ^(.*)$ /bootstrap.php?$1 last;   
+    }
+
+    location ~ .(js|css|gif|png|jpg|ico|ttf|eof|woff|woff2|svg) {
+      if (!-e $request_filename) {
+        rewrite ^/(.*)$ /views/$1 last; 
+      }
+    }
+
+    location ~ ^/(config|classes|helpers|controllers|var)/.*$ {
+         deny all;
+    }
+
+    location ~ .*\.php?$ {
+          expires        off;
+          fastcgi_pass  fastcgi_backend;
+          fastcgi_index index.php;
+          fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+          include fastcgi_params;
+     }
+}

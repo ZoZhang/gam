@@ -1,0 +1,53 @@
+
+<?php if(isset(static::$_responses['invalid_code'])):?>
+    <div class="alert alert-danger">
+        <h4>激活失败 !</h4>
+        <p>您的激活码无效，请重试! </p>
+    </div>
+
+<?php elseif(isset(static::$_responses['actived']) && static::$_responses['actived']):?>
+
+    <div class="alert alert-success">
+        <h4>恭喜您激活成功!</h4>
+        <p>您现在可以点此处<a class="button-s2 ml-1" href='/user/login'>登陆</a>.</p>
+    </div>
+
+<?php elseif(isset(static::$_responses['actived']) && !static::$_responses['actived']):?>
+
+    <div class="alert alert-danger">
+        <h4>账户激活失败 !</h4>
+        <p>请检查您的激活码是否正确！<?php if(isset(static::$_responses['email'])):?>您可以点击<a class="btn btn-success ml-3" href="/user/active/resend/true/email/<?=static::$_responses['email']?>">重发</a><?php endif;?>
+        </p>
+    </div>
+
+<?php elseif(!static::$_responses['success']):?>
+    <div class="alert alert-success">
+        <h4>激活邮件发送成功!</h4>
+
+        <?php if(isset(static::$_responses['email'])):?>
+        <p>如果您没收到激活邮件，请点击 <a class="btn btn-success ml-1" href="/user/active/resend/true/email/<?=static::$_responses['email']?>">重新发送</a>
+        </p>
+        <?php endif;?>
+    </div>
+<?php else:?>
+
+        <?php if(!static::$_responses['email'] && static::$_responses['username']):?>
+
+        <div class="alert alert-danger">
+            <h4>System exception !</h4>
+            <p>The system is abnormal. Please contact the administrator for more information.</p>
+        </div>
+
+        <?php else:?>
+            <div class="alert alert-success">
+                <h4>发送成功!</h4>
+                <p><?php if (isset(static::$_responses['username'])):?>
+                        亲爱的 <?=static::$_responses['username']?>,
+                    <?php endif;?>
+                    我们发了一封激活邮件到您的邮箱:<span class="text-color-s1"><?=static::$_responses['email']?></span>.
+                </p>
+                <p>如果您没收到，可以<a class="button-s2 ml-1" href="/user/active/resend/true/email/<?=static::$_responses['email
+                ']?>">点击</a>重发. </p>
+            </div>
+        <?php endif;?>
+<?php endif;?>

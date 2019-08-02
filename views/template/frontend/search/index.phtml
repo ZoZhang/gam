@@ -1,0 +1,46 @@
+<article>
+    <div>
+        <h1>Recherche de : <?= static::$_responses['searchTerm'] ?></h1>
+        <ul>
+            <h2>USER LIST</h2>
+            <?php foreach (static::$_responses['researchResult'] as $key => $user): ?>
+                <li class="user_search">
+                    <h3 class="user_h3"><a class="name" href="<?=static::getUrl("user/show/").$user->id; ?>"> <?= $user->username ?></a></h3>
+                    <?php
+                        $follows = static::getModel('user')->getFollows($user->id);
+                    ?>
+                    <ul>
+                        <li>
+                            <h4>Mail : <?= $user->mail ?></h4>
+                        </li>
+                        <li>
+                            <h4>Date : <?= $user->date ?></h4>
+                        </li>
+                        <li>
+                            <h4>Biography : <?= $user->biography ?></h4>
+                        </li>
+                        <li>
+                            <h4>Followers : <?= $follows ?> </h4>
+                        </li>
+                    </ul>
+                </li>
+            <?php endforeach ?>
+        </ul>
+        <ul>
+            <h2>VIDEO LIST</h2>
+            <?php foreach (static::$_responses['videoResult'] as $key => $video): ?>
+            <li class="video_search">
+                <h3 class="video_h3"><?= $video->title ?></h3>
+                <ul>
+                    <li>
+                        <h4>length : <?= $video->length ?></h4>
+                    </li>
+                    <li>
+                        <h4>Description : <?= $video->description ?></h4>
+                    </li>
+                </ul>
+            </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+</article>

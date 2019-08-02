@@ -1,0 +1,34 @@
+DirectoryIndex index.html bootstrap.php
+
+Options +FollowSymlinks
+
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)\.(gif|jpg|png|jpeg|css|js|ico|ttf|eof|woff|woff2|svg)$ /views/$1.$2 [L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /bootstrap.php/$1 [L,QSA]
+
+
+<Files "vendor.php">  
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files "Config.php">  
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files "README.md">  
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files "nginx.conf.sample">  
+  Order Allow,Deny
+  Deny from all
+</Files>

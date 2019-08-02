@@ -1,0 +1,22 @@
+<head>
+    <meta charset="UTF-8">
+    <title><?=static::getPageTitle()?></title>
+    <base href="<?=static::getUrl();?>"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico" />
+    <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="css/main.css" rel="stylesheet"/>
+    <?php if ($styles = static::getPageStyles()):?>
+        <?php foreach($styles as $path):?>
+            <link type="text/css" href="<?=$path?>" rel="stylesheet"/>
+        <?php endforeach;?>
+    <?php endif;?>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <?php if ($javascripts = static::getPageJavascripts()):?>
+        <?php foreach($javascripts as $path):?>
+            <script type="text/javascript" src="<?=$path?>"></script>
+        <?php endforeach;?>
+    <?php endif;?>
+</head>

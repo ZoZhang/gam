@@ -1,0 +1,41 @@
+<section class="container">
+    <article>
+        <header><h2>注册</h2></header>
+        <footer>
+            <form method="post" action="<?=static::getUrl('user/register');?>">
+                <div class="input-text">
+                    <?php if(isset(static::$_responses['message']) && !empty(static::$_responses['message'])):?>
+                        <div class="alert <?=static::$_responses['success'] ? 'alert-success': 'alert-danger'?>">
+                            <?=static::$_responses['message']?>
+                        </div>
+                    <?php endif;?>
+                </div>
+                <div class="input-text">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" name="register[username]" placeholder="请输入用户名" />
+                </div>
+                <div class="input-text">
+                    <label for="username">用户类型</label>
+                    <select name="register[type]">
+                        <option value="personal">个人用户</option>
+                        <option value="enterprise">企业用户</option>
+                    </select>
+                </div>
+                <div class="input-text">
+                    <label for="email">邮箱</label>
+                    <input type="email" name="register[email]" id="email" placeholder="请输入邮箱"/>
+                </div>
+                <div class="input-text">
+                    <label for="password">密码</label>
+                    <input type="password" name="register[password]" id="password" placeholder="请输入密码"/>
+                </div>
+                <div class="input-text">
+                    <label for="password">确认密码</label>
+                    <input type="password" name="register[password_confirmation]" id="password" placeholder="请输入密码"/>
+                </div>
+
+                <p class="text-center"><button class="button-s1" type="submit">立即注册</button></p>
+            </form>
+        </footer>
+    </article>
+</section>

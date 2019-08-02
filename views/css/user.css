@@ -1,0 +1,18 @@
+/**
+ *  User Styles
+ *
+ */
+.container {
+    max-width:70%;
+    margin:0 auto;
+}
+.user-register main section:first-child {
+    display:flex;
+}
+.user-register main section:first-child > article {
+    flex:4;
+}
+
+.user-profil .upload-avatar img{
+    max-width: 20%;
+}

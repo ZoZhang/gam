@@ -1,0 +1,10 @@
+<section class="container">
+
+    <?php if(static::$_responses['message']):?>
+        <div class="alert <?=static::$_responses['success'] ? 'alert-success':
+            'alert-danger'?>">
+            <?php if(static::$_responses['message']):?><?=static::$_responses['message']?><?php endif;?>
+        </div>
+    <?php endif;?>
+
+</section>

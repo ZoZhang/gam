@@ -1,0 +1,31 @@
+<section class="container">
+    <article>
+        <header><h2>发布任务</h2></header>
+        <footer>
+            <form method="post" action="<?=static::getUrl('contract/create');?>">
+                <div class="input-text">
+                    <?php if(isset(static::$_responses['message']) && !empty(static::$_responses['message'])):?>
+                        <div class="alert <?=static::$_responses['success'] ? 'alert-success': 'alert-danger'?>">
+                            <?=static::$_responses['message']?>
+                        </div>
+                    <?php endif;?>
+                </div>
+                <div class="input-text">
+                    <label for="contract-name">任务名称</label>
+                    <input type="text" class="form-control" id="contract-name" name="contract[title]"
+                           placeholder="请输入名称" />
+                </div>
+                <div class="input-text">
+                    <label for="contract-reward">任务奖励</label>
+                    <input type="number" class="form-control" id="contract-reward" min="0" step="0.000001" max="999999999999" name="contract[reward]" placeholder="0.1~999999999999" required/>
+                </div>
+                <div class="input-text">
+                    <label for="contract-detail">任务详情</label>
+                    <textarea name="contract[content]" id="contract-detail"  placeholder="请输入详细介绍" ></textarea>
+                </div>
+
+                <p class="text-center"><button class="button-s1" type="submit">立即发布</button></p>
+            </form>
+        </footer>
+    </article>
+</section>
