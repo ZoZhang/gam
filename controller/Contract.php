@@ -10,35 +10,6 @@ namespace Gam\Controller;
 
 class Contract extends Abstracts
 {
-    
-    /**
-     * Contract list page
-     * @return void
-     */
-    public static function listAction()
-    {
-        static::$_pageClass = 'contact-list';
-        static::$_templates = [
-            'base/header.phtml',
-            'contract/list.phtml',
-            'base/footer.phtml'
-        ];
-
-        $model = static::getModel('contract');
-        static::$_responses['contracts'] = $model->getContract();
-
-        if($isAjax = static::getRequest('isAjax')) {
-            static::$_responses = [
-                'success' => true,
-                'message' => 'ajax request is success.',
-                'content' => static::loadLayout($isAjax)
-            ];
-            static::sendJson(static::$_responses);
-        } else {
-            static::loadLayout();
-        }
-    }
-
     /**
      * Contract list page
      * @return void
@@ -84,6 +55,15 @@ class Contract extends Abstracts
     }
 
     /**
+     * Contract index page
+     * @return void
+     */
+    public static function indexAction()
+    {
+        static::redirectUrl('contract/list');
+    }
+
+    /**
      * Contract list page
      * @return void
      */
@@ -112,6 +92,11 @@ class Contract extends Abstracts
         static::$_responses['contract'] = $model->getContract(['id' => $id]);
         static::$_responses['announcer'] = $user->getOne(static::$_responses['contract'][0]->customer_id);
 
+        if (static::$_responses['contract']{0}->delegation_id){
+            $delegation = $user->getOne(static::$_responses['contract'][0]->delegation_id);
+            static::$_responses['contract']{0}->delegation_id = $delegation{0}->username;
+        }
+
         if($isAjax = static::getRequest('isAjax')) {
             static::$_responses = [
                 'success' => true,
@@ -130,6 +115,49 @@ class Contract extends Abstracts
     }
 
     /**
+     * Contract list page
+     * @return void
+     */
+    public static function listAction()
+    {
+        static::$_pageClass = 'contact-list';
+        static::$_templates = [
+            'base/header.phtml',
+            'contract/list.phtml',
+            'base/footer.phtml'
+        ];
+
+        $parametes = [];
+        $model = static::getModel('contract');
+
+        if(isset(static::$_responses['current_user'])) {
+
+            if (static::$_responses['current_user']['type'] == 'enterprise') {
+                $parametes= [
+                    'customer_id' => static::$_responses['current_user']['id']
+                ];
+            } else {
+                $parametes= [
+                    'delegation_id' => static::$_responses['current_user']['id']
+                ];
+            }
+        }
+
+        static::$_responses['contracts'] = $model->getContract($parametes);
+
+        if($isAjax = static::getRequest('isAjax')) {
+            static::$_responses = [
+                'success' => true,
+                'message' => 'ajax request is success.',
+                'content' => static::loadLayout($isAjax)
+            ];
+            static::sendJson(static::$_responses);
+        } else {
+            static::loadLayout();
+        }
+    }
+
+    /**
      * Contract accpet page
      * @return void
      */
@@ -144,9 +172,13 @@ class Contract extends Abstracts
 
         $id = static::getRequest('id');
 
-        static::$_responses['success'] = true;
+        static::$_responses['success'] = false;
 
-        //view contract
+        if (!isset(static::$_responses['current_user'])) {
+            static::$_responses['message'] = '请先登陆';
+            static::redirectUrl('user/login');
+        }
+
         if (!$id) {
             static::$_responses['message'] = '该任务不存在';
             static::redirectUrl('contract/list');
@@ -155,8 +187,65 @@ class Contract extends Abstracts
         $user = static::getModel('user');
         $model = static::getModel('contract');
 
-        static::$_responses['contract'] = $model->getContract(['id' => $id]);
-        static::$_responses['announcer'] = $user->getOne(static::$_responses['contract'][0]->customer_id);
+        static::$_responses = $model->delegation(['id' => $id]);
+
+        //static::$_responses['announcer'] = $user->getOne(static::$_responses['contract'][0]->customer_id);
+
+        if($isAjax = static::getRequest('isAjax')) {
+            static::$_responses = [
+                'success' => true,
+                'message' => 'ajax request is success.',
+                'content' => static::loadLayout($isAjax)
+            ];
+            static::sendJson(static::$_responses);
+        } else {
+
+            if (isset(static::$_responses['redirect_url'])) {
+                static::redirectUrl(static::$_responses);
+            } else {
+                static::loadLayout();
+            }
+        }
+    }
+
+    /**
+     * Contract finished page
+     * @return void
+     */
+    public static function finishAction()
+    {
+        static::$_pageClass = 'contact-finish';
+        static::$_templates = [
+            'base/header.phtml',
+            'contract/view.phtml',
+            'base/footer.phtml'
+        ];
+
+        $id = static::getRequest('id');
+
+        static::$_responses['success'] = false;
+
+        if (!isset(static::$_responses['current_user'])) {
+            static::$_responses['message'] = '请先登陆';
+            static::redirectUrl('user/login');
+        }
+
+        if (!$id) {
+            static::$_responses['message'] = '该任务不存在';
+            static::redirectUrl('contract/list');
+        }
+
+        $user = static::getModel('user');
+        $model = static::getModel('contract');
+
+        $contract = $model->getContract(['id' => $id]);
+        $delegationUser = $user->getOne($contract{0}->delegation_id);
+
+        static::$_responses = $model->finish([
+            'id' => $id,
+            'byid' => $delegationUser{0}->byid,
+            'password' => $delegationUser{0}->password,
+        ]);
 
         if($isAjax = static::getRequest('isAjax')) {
             static::$_responses = [

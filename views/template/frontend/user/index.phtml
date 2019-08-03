@@ -1,5 +1,4 @@
 <section class="container">
-
     <?php if(static::$_responses['message']):?>
         <div class="alert <?=static::$_responses['success'] ? 'alert-success':
             'alert-danger'?>">
@@ -20,22 +19,27 @@
                     <input type="file" id="avatar" name="profil[avatar]" value="上传">
                 </div>
                 <div class="input-text">
+                    <label for="bytom-address">比原地址</label>
+                    <input id="bytom-address" type="text" value="<?=static::$_responses['current_user']['byid']?>"
+                           disabled>
+                </div>
+                <div class="input-text">
                     <label for="password">新密码</label>
                     <input id="password" type="password" name="profil[new_password]" placeholder="请输入密码">
                 </div>
-            <div class="input-text">
-                <label for="password">新密码</label>
-                <input id="password_confirmation" type="password" name="profil[password_confirmation]" placeholder="请输入密码">
-            </div>
                 <div class="input-text">
-                    <label for="current_password">当前密码</label>
-                    <input id="current_password" type="password" name="profil[old_password]" placeholder="当前密码">
+                    <label for="password">新密码</label>
+                    <input id="password_confirmation" type="password" name="profil[password_confirmation]" placeholder="请输入密码">
                 </div>
-            <p class="text-center">
-                <button class="button-s1 button-color-s1" type="submit" name="profil[button]"
-                        value="delete">删除我的账户</button>
-                <button class="button-s1" type="submit" name="profil[button]"  value="update">更新我的资料</button>
-            </p>
+                    <div class="input-text">
+                        <label for="current_password">当前密码</label>
+                        <input id="current_password" type="password" name="profil[old_password]" placeholder="当前密码">
+                    </div>
+                <p class="text-center">
+                    <button class="button-s1 button-color-s1" type="submit" name="profil[button]"
+                            value="delete">删除我的账户</button>
+                    <button class="button-s1" type="submit" name="profil[button]"  value="update">更新我的资料</button>
+                </p>
         </form>
     </article>
 </section>

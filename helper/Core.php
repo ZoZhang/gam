@@ -65,4 +65,13 @@ class Core {
     }
 
 
+    /*
+     * Genere key activation
+     * @return string
+     */
+    public static function getActivationKey()
+    {
+        return bin2hex(openssl_random_pseudo_bytes(16));
+    }
+
 }

@@ -1,3 +1,16 @@
+<?php
+ $status = [
+        'CREATED' => '创建',
+        'PENDING' => '进行中',
+        'FINISHED' => '完成',
+    ];
+?>
+<?php if(isset(static::$_responses['message']) && !empty(static::$_responses['message'])):?>
+    <div class="alert <?=static::$_responses['success'] ? 'alert-success': 'alert-danger'?>">
+        <?=static::$_responses['message']?>
+    </div>
+<?php endif;?>
+
 <section class="container">
     <header><h2>热门推荐</h2></header>
     <article>
@@ -21,16 +34,20 @@
                             <th scope="row"><?=$contact->id?></th>
                             <td><?=$contact->title?></td>
                             <td><?=$contact->reward?></td>
-                            <td><?=$contact->status?></td>
+                            <td><?=$status[$contact->status]?></td>
                             <td><?=$contact->created_at?></td>
                             <td>
-
                                 <a class="btn btn-primary" href="<?=static::getUrl('contract/view/') . $contact->id;
                                 ?>">查看</a>
 
-                                <?php if(!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) && static::$_responses['current_user']['type'] != 'enterprise')):?>
-                                    <a class="btn btn-success" href="<?=static::getUrl('contract/accept/'). $contact->id;?>">接受任务</a>
+                                <?php if(!$contact->locked && (!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) && static::$_responses['current_user']['type'] != 'enterprise'))):?>
+                                    <a class="btn btn-success" href="<?=static::getUrl('contract/accept/'). $contact->id;?>">接受</a>
                                 <?php endif;?>
+
+                                <?php if (isset(static::$_responses['current_user']) && $contact->customer_id ==static::$_responses['current_user']['id'] && $contact->locked) :?>
+                                    <a class="btn btn-success" href="<?=static::getUrl('contract/finish/').$contact->id;?>">确认</a>
+                                <?php endif;?>
+
 
                             </td>
                         </tr>

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "php-curl-class/php-curl-class": "^8.6",
+        "lxlxw/bytom-php-sdk": "^1.0"
+    }
+}

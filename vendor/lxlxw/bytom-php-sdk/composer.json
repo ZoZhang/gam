@@ -1,0 +1,34 @@
+{
+  "name": "lxlxw/bytom-php-sdk",
+  "description": "PHP SDK to interact with Bytomd",
+  "keywords": [
+    "bytom",
+    "php",
+    "sdk"
+  ],
+  "type": "library",
+  "homepage": "https://github.com/lxlxw/bytom-php-sdk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "lxlxw",
+      "email": "linxiaowu@xwlin.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8.24"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bytom\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bytom\\Tests\\": "tests/"
+    }
+  }
+}

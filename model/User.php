@@ -9,6 +9,7 @@ namespace Gam\Model;
 
 use \Gam\Helper\Core;
 use \Gam\Helper\Mail;
+use \Gam\Helper\Bytom;
 
 class User extends Abstracts {
 
@@ -82,7 +83,7 @@ class User extends Abstracts {
             return $result;
         }
 
-        $key = Mail::getActivationKey();
+        $key = Core::getActivationKey();
 
         $_data = [
             'table' => 'customer',
@@ -368,7 +369,7 @@ class User extends Abstracts {
 
             if ($user) {
 
-                $parameter['activation_key'] = Mail::getActivationKey();
+                $parameter['activation_key'] = Core::getActivationKey();
 
                 $_data = [
                     'table' => 'customer',
@@ -516,12 +517,20 @@ class User extends Abstracts {
 
         $passwrod =  password_hash($data['password'], PASSWORD_DEFAULT, ["cost" => self::PASSWORD_CONST]);
 
-        $activationKey = Mail::getActivationKey();
+        $activationKey = Core::getActivationKey();
+
+        //Synchronise Via Bytom
+        $bytomAccountId = Bytom::createAccount($data['email'], $data['password']);
+
+        if (!$bytomAccountId) {
+            return $response;
+        }
 
         $_querys = [
             'table' => 'customer',
             'operation' => 'insert',
             'fields' => [
+                'byid'  => $bytomAccountId,
                 'email' => $data['email'],
                 'username' => $data['username'],
                 'confirmation' => $activationKey,
@@ -590,6 +599,7 @@ class User extends Abstracts {
             'id' => $user{0}->id,
             'is_active' => $user{0}->is_active,
             'type' => $user{0}->type,
+            'byid' => $user{0}->byid,
             'avatar' => $user{0}->avatar,
             'email' => $user{0}->email,
             'username' => $user{0}->username,

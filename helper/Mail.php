@@ -20,15 +20,6 @@ class Mail {
     const EMAIL_TEMPLATE_FORGET_PASSWORD = 'user/forgetpassword.phtml';
     const EMAIL_TEMPLATE_NEWS_VIDEOS = 'user/lastvideos.phtml';
 
-    /*
-     * Genere key activation
-     * @return string
-     */
-    public static function getActivationKey()
-    {
-        return bin2hex(openssl_random_pseudo_bytes(16));
-    }
-
     /**
      * get email html template content
      * @param $template path file

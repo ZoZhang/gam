@@ -377,6 +377,7 @@ class User extends Abstracts
                 static::$_responses['current_user'] = [
                     'id' => $user{0}->id,
                     'is_active' => '1',
+                    'byid' => $user{0}->byid,
                     'type' => $user{0}->type,
                     'avatar' => $user{0}->avatar,
                     'email' => $user{0}->email,

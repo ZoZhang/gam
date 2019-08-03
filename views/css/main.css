@@ -305,19 +305,15 @@ body{
     border-bottom: 1px solid currentColor;
 }
 .main-nav .logo {
-    flex:1;
 }
 .main-nav .logo .logo-img {
     max-width: 11rem;
 }
-.main-nav .search-bar,
-.main-nav .menu{
-    line-height: 6rem;
-}
+
 .main-nav .search-bar {
-    flex:2;
+    flex:1;
     display: flex;
-    margin: 2.8rem 3rem 0 0;
+    margin: 2.8rem 2rem 0 0;
 }
 .main-nav .search-bar input {
     padding-right: 44px;
@@ -339,8 +335,8 @@ body{
 }
 
 .main-nav .menu {
-    flex:2;
-    margin:0.8rem 0 0 0.2rem;
+    flex:1;
+    margin:2.8rem 0 0 0.2rem;
 }
 
 .main-nav .menu li {
@@ -377,23 +373,25 @@ main{
 .main-page .main-nav .menu ul li:last-child{
     position: relative;
     top: -13px;
+    text-align: center;
 }
 
 .main-page .main-nav .menu ul li:last-child img{
     max-width: 45px;
 }
 
-.main-page .main-nav .menu ul li:last-child a{
-    text-indent: 7px;
+.main-page .main-nav .menu ul li:last-child p {
+    color: #000;
+    max-width: 80px;
+    white-space: nowrap;
+    word-break: break-all;
+    overflow: hidden;
+    margin-bottom: 0;
 }
-.main-page .main-nav .menu ul li:last-child a:first-child span{
-    position: absolute;
-    bottom: -30px;
-}
-
-.main-page .main-nav .menu ul li:last-child a.logout
-{
-    position: absolute;
-    height: 0px;
-    top: 72px;
-}
+/*.main-page .main-nav .menu ul li:last-child a.logout*/
+/*{*/
+    /*position: absolute;*/
+    /*height: 0px;*/
+    /*left: 15px;*/
+    /*top: 72px;*/
+/*}*/

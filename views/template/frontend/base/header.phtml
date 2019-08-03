@@ -52,8 +52,10 @@
                         <?php else:?>
                             <img src="<?=static::getUrl('images/icons/account.png');?>"/>
                         <?php endif;?>
-                           <span><?=static::$_responses['current_user']['username']?></span>
                         </a>
+                        <p><?=static::$_responses['current_user']['username']?></p>
+
+
                         <a class="logout" href="<?=static::getUrl('user/logout');?>"><span>注销</span></a>
                     </li>
                 <?php endif;?>

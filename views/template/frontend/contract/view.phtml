@@ -1,3 +1,11 @@
+<?php
+$status = [
+    'CREATED' => '创建',
+    'PENDING' => '进行中',
+    'FINISHED' => '完成',
+];
+?>
+
 <section class="container">
     <article>
         <header><h2>查看问答</h2></header>
@@ -17,7 +25,7 @@
                     </div>
                     <div class="input-text">
                         <label for="contract-name">任务状态</label>
-                        <input type="text" class="form-control" id="contract-status" name="contract[status]" value="<?=static::$_responses['contract']{0}->status?>" disabled/>
+                        <input type="text" class="form-control" id="contract-status" name="contract[status]" value="<?=$status[static::$_responses['contract']{0}->status]?>" disabled/>
                     </div>
                     <?php if (static::$_responses['contract']{0}->txid):?>
                     <div class="input-text">
@@ -29,7 +37,12 @@
                         <label for="contract-name">发布者</label>
                         <input type="text" class="form-control" id="contract-announcer" name="contract[announcer]" value="<?=static::$_responses['announcer']{0}->username?>" disabled/>
                     </div>
-
+                    <?php if (static::$_responses['contract']{0}->delegation_id):?>
+                        <div class="input-text">
+                            <label for="contract-name">委托者</label>
+                            <input type="text" class="form-control" id="contract-txid" name="contract[delegation_id]" value="<?=static::$_responses['contract']{0}->delegation_id?>" disabled/>
+                        </div>
+                    <?php endif;?>
                     <div class="input-text">
                         <label for="contract-reward">任务奖励</label>
                         <input type="number" class="form-control" id="contract-reward" min="0" step="0.000001" max="999999999999" name="contract[reward]" value="<?=static::$_responses['contract']{0}->reward?>" disabled/>
@@ -39,13 +52,17 @@
                         <textarea name="contract[content]" id="contract-detail"  placeholder="<?=static::$_responses['contract']{0}->content?>" disabled></textarea>
                     </div>
                     <p class="text-center">
-                        <a class="btn btn-primary" href="<?=static::getUrl('contract/list');?>">返回志愿者清单</a>
+                        <a class="btn btn-primary" href="<?=static::getUrl('contract/list');?>">返回</a>
 
-                        <?php if(!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) &&
-                            static::$_responses['current_user']['type'] != 'enterprise')):?>
+                        <?php if(!static::$_responses['contract']{0}->locked && (!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) &&
+                                static::$_responses['current_user']['type'] != 'enterprise')) && static::$_responses['contract']{0}->status != 'FINISHED'):?>
                         <a class="btn btn-success" href="<?=static::getUrl('contract/accept/').static::$_responses['contract']{0}->id;?>">接受任务</a>
                         <?php else:?>
-                            <a class="btn btn-success" href="<?=static::getUrl('contract/accept/').static::$_responses['contract']{0}->id;?>">确认完成</a>
+
+                         <?php if (isset(static::$_responses['current_user']) && static::$_responses['contract']{0}->customer_id ==static::$_responses['current_user']['id'] && static::$_responses['contract']{0}->locked) :?>
+                                     <a class="btn btn-success" href="<?=static::getUrl('contract/finish/').static::$_responses['contract']{0}->id;?>">确认</a>
+                         <?php endif;?>
+
                         <?php endif;?>
                     </p>
                 <?php endif;?>

@@ -34,6 +34,8 @@ foreach ([VAR_PATH, LOG_PATH, SESSION_PATH] as $path) {
 
 session_save_path(SESSION_PATH);
 
+require ROOT_PATH . '/vendor/autoload.php';
+
 $custom_directory = [
     'helper',
     'model',
