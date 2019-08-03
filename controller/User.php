@@ -440,7 +440,7 @@ class User extends Abstracts
             static::sendJson(static::$_responses);
         } else {
 
-            if (!static::$_responses['current_user']) {
+            if (!isset(static::$_responses['current_user'])) {
                 static::redirectUrl('user/login');
 
             } elseif(!static::$_responses['current_user']['is_active']){
