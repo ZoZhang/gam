@@ -118,6 +118,7 @@ class Bytom {
      */
     public static function pushContract($parametes = [])
     {
+        return 'e710d63a81f2cc1febcf989c547d2576e58b51961461885a378e514a197b39c0';
       $response = ['success'=> false, 'message'=>'推送合约失败'];
 
       if (!count($parametes)) {
@@ -163,11 +164,12 @@ class Bytom {
           $res = self::getBytomClient()->submitTransaction($data["data"]["transaction"]["raw_transaction"]);
           $data = $res->getJSONDecodedBody();
 
-          if($data["status"] == "success" && isset($data['tx_id'])){
-              return $data['tx_id'];
+          if($data["status"] == "success" && isset($data['data']['tx_id'])){
+              return $data['data']['tx_id'];
           }
+        } else {
+            $response['message'] = $data['msg'];
         }
-          $response['message'] = $data['msg'];
       } else {
           $response['message'] = $data['msg'];
       }
@@ -187,31 +189,27 @@ class Bytom {
     {
         $response = ['success'=> false, 'message'=>'合约拉取失败'];
 
-        if (!count($parametes)) {
+        if (!count($parametes) || !count($parametes['txid'])) {
             return $response;
         }
 
         $dataList = array();
-        $newIds = explode(',', $parametes['txid']);
 
-        foreach ($newIds as $tx_id) {
+        foreach ($parametes['txid'] as $tx_id) {
             //$id = "", $account_id = "", $detail = false
             $res = self::getBytomClient()->getTransaction($tx_id);
             $data = $res->getJSONDecodedBody();
-            if($data["status"] == "success"){
 
-                if($data["data"]["block_height"] > 0){
-                  foreach ($data["data"]["outputs"] as $outputsInfo) {
-                      if(strpos($outputsInfo["control_program"], "00") === 0){
 
-                      }else {
-                          $dataList[$tx_id] = $outputsInfo["id"];
-                      }
-                  }
-                }
-
-            } else {
+            if($data["status"] != "success" || $data["data"]["block_height"] <= 0){
                 Exception::logger(print_r($data, true), 1);
+                continue;
+            }
+
+            foreach ($data["data"]["outputs"] as $outputsInfo) {
+              if(strpos($outputsInfo["control_program"], "00") !== 0){
+                  $dataList[$tx_id] = $outputsInfo["id"];
+              }
             }
         }
 
@@ -241,12 +239,12 @@ class Bytom {
         $password = $parametes['password'];
         $unlockKey = $parametes['unlockkey'];
 
-
         $api = self::BYTOM_HOST_URI.'/list-unspent-outputs';
         $xbhttpClient = new CurlHttpClient("");
         $params = ['id' => $cid, 'smart_contract' => true];
         $result = $xbhttpClient->post($api, $params);
         $data = $result->getJSONDecodedBody();
+
         if($data["status"] == "success"){
             $info = $data["data"][0];
             $spendAccount_tmp = [
@@ -263,6 +261,7 @@ class Bytom {
 
             $result = $xbhttpClient->post($api, $params);
             $data = $result->getJSONDecodedBody();
+
             if($data["status"] == "success"){
 
                 $receiver = $data["data"][0];
@@ -301,7 +300,7 @@ class Bytom {
 
                 if($data["status"] == "success"){
 
-                  $res = self::getBytomClient()->signTransaction($password,$data["data"]);
+                  $res = self::getBytomClient()->signTransaction($password, $data["data"]);
                   $data = $res->getJSONDecodedBody();
                   if($data["status"] == "success"){
 
@@ -309,12 +308,13 @@ class Bytom {
                     $data = $res->getJSONDecodedBody();
 
                     if($data["status"] == "success"){
-                        return $data['tx_id'];
+                        return $data['data']['tx_id'];
                     }
                   }
                 }
+            } else {
+                $response['message'] = $data['msg'];
             }
-            $response['message'] = $data['msg'];
         }
 
         $response['message'] = $data['msg'];

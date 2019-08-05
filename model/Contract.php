@@ -9,6 +9,7 @@ namespace Gam\Model;
 
 use \Gam\Helper\Core;
 use \Gam\Helper\Bytom;
+use \Gam\Helper\Exception;
 
 class Contract extends Abstracts {
 
@@ -85,24 +86,6 @@ class Contract extends Abstracts {
             return $response;
         }
 
-        $cids = Bytom::pullContract([
-            'txid'  => $txid
-        ]);
-
-        if (isset($cids['success']) && !$cids['success']) {
-            $response = [
-                'message'=> '推送失败，请检查bytom服务! ' . $cids['message']
-            ];
-            return $response;
-        }
-
-        if (!count($cids) || !isset($cids[$txid])) {
-            $response = [
-                'message'=> '推送失败，请检查bytom服务!'
-            ];
-            return $response;
-        }
-
         $_querys = [
             'table' => 'contract',
             'operation' => 'insert',
@@ -113,8 +96,7 @@ class Contract extends Abstracts {
                 'reward' => $data['reward'],
                 'status' => 'CREATED',
                 'txid' => $txid,
-                'cid' => $cids[$txid],
-                'push' => 1,
+                'push' => 0,
                 'program' => $program,
                 'locked'  => 0
             ]
@@ -151,6 +133,10 @@ class Contract extends Abstracts {
         }
 
         $currentUser = Core::getCurrentUser();
+
+        if (!isset($currentUser['id'])) {
+            return $response;
+        }
 
         if ($currentUser['type'] == 'enterprise'){
             $response = [
@@ -196,6 +182,66 @@ class Contract extends Abstracts {
             ];
         }
         return $response;
+    }
+
+    /**
+     * update bytom cid for contract
+     * @return bool|void
+     * @throws \Exception
+     */
+    public function pull()
+    {
+        $contracts = $this->getContract();
+
+        if (!count($contracts)) {
+            return false;
+        }
+
+        $txids = [];
+        foreach($contracts as $contract) {
+
+            if ($contract->cid) {
+                continue;
+            }
+
+            $txids[] = $contract->txid;
+        }
+
+        $cids = Bytom::pullContract([
+            'txid'  => $txids
+        ]);
+
+        if (isset($cids['success']) && !$cids['success']) {
+            Exception::logger(print_r($cids, true), 1);
+            return;
+        }
+
+        foreach($contracts as $contract) {
+
+            if ($contract->cid) {
+                continue;
+            }
+
+            if (!isset($cids[$contract->txid])) {
+                continue;
+            }
+
+            $_querys = [
+                'table' => 'contract',
+                'operation' => 'update',
+                'fields' => [
+                    'push'    => 1,
+                    'cid'    => $cids[$contract->txid]
+                ],
+                'where' => 'id=:id',
+                'parametes' => [':id' => $contract->id]
+            ];
+
+            if ($id = $this->updateData($_querys)) {
+               print_r(sprintf('Update Contract Cid Success: %s->%s' . PHP_EOL, $contract->id, $cids[$contract->txid]));
+            }
+        }
+        return;
     }
 
     /**
@@ -265,14 +311,8 @@ class Contract extends Abstracts {
 
         if (isset($txid['success']) && !$txid['success']) {
             $response = [
+                'redirect_url'=>'contract/view/' .$contract{0}->cid,
                 'message'=> '解锁合约失败，请检查bytom服务! ' . $txid['message']
-            ];
-            return $response;
-        }
-
-        if (!$txid) {
-            $response = [
-                'message'=> '解锁失败，请检查bytom服务!'
             ];
             return $response;
         }
@@ -286,7 +326,6 @@ class Contract extends Abstracts {
         }
         return $response;
     }
-
 
     /**
      * get contract
@@ -325,6 +364,4 @@ class Contract extends Abstracts {
 
         return $data;
     }
-
-
 }
