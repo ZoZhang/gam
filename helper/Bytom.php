@@ -117,14 +117,14 @@ class Bytom {
 
       $spendAction = [
         "account_id" => $parametes['byid'],
-        "amount" => 1,
+        "amount" => 1000000,
         "asset_id" => "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "type" => "spend_account"
       ];
 
       $vbAction = [
         "account_id" => $parametes['byid'],
-        "amount" => 1,
+        "amount" => 10000000000,
         "asset_id" => "31434830dd7af31d7bb2aed3942cbc15f5ad78c438c11ff52caef10a05bef40c",
         "type" => "spend_account"
       ];
@@ -236,7 +236,7 @@ class Bytom {
             $info = $data["data"][0];
             $spendAccount_tmp = [
               "account_id" => $byId,
-              "amount" => 1,
+              "amount" => 1000000,
               "asset_id" => "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
               "type" => "spend_account"
             ];
