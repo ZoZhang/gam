@@ -49,11 +49,6 @@ class Search extends Contract {
 
         $data = $this->getData($_querys);
 
-        foreach ($data as &$item) {
-            $item->status = $this->status[$item->status];;
-
-        }
-
         return $data;
     }
 

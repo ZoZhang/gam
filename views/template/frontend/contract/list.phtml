@@ -40,14 +40,13 @@
                                 <a class="btn btn-primary" href="<?=static::getUrl('contract/view/') . $contact->id;
                                 ?>">查看</a>
 
-                                <?php if(!$contact->locked && (!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) && static::$_responses['current_user']['type'] != 'enterprise'))):?>
+                                <?php if(!$contact->locked && (!isset(static::$_responses['current_user']) || (isset(static::$_responses['current_user']) && static::$_responses['current_user']['type'] != 'enterprise')) && $contact->status != 'FINISHED'):?>
                                     <a class="btn btn-success" href="<?=static::getUrl('contract/accept/'). $contact->id;?>">接受</a>
                                 <?php endif;?>
 
                                 <?php if (isset(static::$_responses['current_user']) && $contact->customer_id ==static::$_responses['current_user']['id'] && $contact->locked) :?>
                                     <a class="btn btn-success" href="<?=static::getUrl('contract/finish/').$contact->id;?>">确认</a>
                                 <?php endif;?>
-
 
                             </td>
                         </tr>
