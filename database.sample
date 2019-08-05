@@ -1,0 +1,58 @@
+--
+-- Structure de la table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Customer ID',
+  `byid` varchar(255) DEFAULT NULL COMMENT 'Address Bytom',
+  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
+  `username` varchar(255) DEFAULT NULL COMMENT 'Customer Name',
+  `avatar` varchar(255) DEFAULT NULL COMMENT 'Email',
+  `is_active` smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Is Active',
+  `password` varchar(128) DEFAULT NULL COMMENT 'Password_hash',
+  `type` varchar(64) DEFAULT NULL COMMENT 'Customer Type',
+  `confirmation` varchar(255) DEFAULT NULL COMMENT 'Is Confirmed',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Updated At'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Structure de la table `contract`
+--
+
+CREATE TABLE `contract` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Contract ID',
+  `customer_id` int(11) UNSIGNED NOT NULL COMMENT 'Customer ID',
+  `delegation_id` int(11) DEFAULT NULL COMMENT 'Eelegation Customer Id',
+  `title` varchar(255) NOT NULL COMMENT 'Title',
+  `reward` int(11) NOT NULL DEFAULT 0 COMMENT 'Reward',
+  `content` text NOT NULL COMMENT 'Content',
+  `status` varchar(255) DEFAULT NULL COMMENT 'Contract Status',
+  `push` smallint(5) UNSIGNED DEFAULT 0 COMMENT 'Is Push Bytom',
+  `txid` varchar(255) DEFAULT NULL COMMENT 'Address Bytom',
+  `cid` varchar(255) DEFAULT NULL COMMENT 'Contract Cid',
+  `program` varchar(255) DEFAULT NULL COMMENT 'Program',
+  `locked` smallint(5) UNSIGNED DEFAULT 0 COMMENT 'Is Lock',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Updated At'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `contract`
+--
+ALTER TABLE `contract`
+  ADD PRIMARY KEY (`id`);
