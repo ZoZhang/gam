@@ -1,0 +1,3 @@
+#Update Bytom Data
+
+* * * * * php /root_path/shell/Cron.php > var/log/crontab.log
