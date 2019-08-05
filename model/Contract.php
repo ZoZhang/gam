@@ -58,9 +58,9 @@ class Contract extends Abstracts {
 
         // create contract to bytom
         $program = Bytom::createContract($data['title']);
-        if (!$program) {
+        if (is_array($program) && !$program['success']) {
             $response = [
-                'message'=> '发布失败，请检查bytom服务!'
+                'message'=> '发布失败，请检查bytom服务! ' . $program['message']
             ];
             return $response;
         }
@@ -70,6 +70,13 @@ class Contract extends Abstracts {
             'program'  => $program,
             'password'  => $currentUser['password'],
         ]);
+
+        if (isset($txid['success']) && !$txid['success']) {
+            $response = [
+                'message'=> '推送失败，请检查bytom服务! ' . $txid['message']
+            ];
+            return $response;
+        }
 
         if (!$txid) {
             $response = [
@@ -81,6 +88,13 @@ class Contract extends Abstracts {
         $cids = Bytom::pullContract([
             'txid'  => $txid
         ]);
+
+        if (isset($cids['success']) && !$cids['success']) {
+            $response = [
+                'message'=> '推送失败，请检查bytom服务! ' . $cids['message']
+            ];
+            return $response;
+        }
 
         if (!count($cids) || !isset($cids[$txid])) {
             $response = [
@@ -248,6 +262,13 @@ class Contract extends Abstracts {
             'password' => $data['password'],
             'unlockkey' => $contract{0}->program,
         ]);
+
+        if (isset($txid['success']) && !$txid['success']) {
+            $response = [
+                'message'=> '解锁合约失败，请检查bytom服务! ' . $txid['message']
+            ];
+            return $response;
+        }
 
         if (!$txid) {
             $response = [

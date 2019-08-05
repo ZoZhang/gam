@@ -106,6 +106,7 @@ abstract class Abstracts
                         'type' => $user{0}->type,
                         'avatar' => $user{0}->avatar,
                         'email' => $user{0}->email,
+                        'password' => $user{0}->password,
                         'username' => $user{0}->username,
                     ];
 

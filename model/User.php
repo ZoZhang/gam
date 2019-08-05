@@ -522,6 +522,13 @@ class User extends Abstracts {
         //Synchronise Via Bytom
         $bytomAccountId = Bytom::createAccount($data['email'], $passwrod);
 
+        if (isset($bytomAccountId['success']) && !$bytomAccountId['success']) {
+            $response = [
+                'message'=> '用户创建失败，请检查bytom服务! ' . $bytomAccountId['message']
+            ];
+            return $response;
+        }
+
         if (!$bytomAccountId) {
             return $response;
         }
@@ -602,6 +609,7 @@ class User extends Abstracts {
             'byid' => $user{0}->byid,
             'avatar' => $user{0}->avatar,
             'email' => $user{0}->email,
+            'password' => $user{0}->password,
             'username' => $user{0}->username,
         ];
 
