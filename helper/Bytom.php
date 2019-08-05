@@ -229,7 +229,7 @@ class Bytom {
 
         $api = self::BYTOM_HOST_URI.'/list-unspent-outputs';
         $xbhttpClient = new CurlHttpClient("");
-        $params = ['id' => $ouput_id, 'smart_contract' => true];
+        $params = ['id' => $cid, 'smart_contract' => true];
         $result = $xbhttpClient->post($api, $params);
         $data = $result->getJSONDecodedBody();
         if($data["status"] == "success"){
