@@ -118,7 +118,6 @@ class Bytom {
      */
     public static function pushContract($parametes = [])
     {
-        return 'e710d63a81f2cc1febcf989c547d2576e58b51961461885a378e514a197b39c0';
       $response = ['success'=> false, 'message'=>'推送合约失败'];
 
       if (!count($parametes)) {
