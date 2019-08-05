@@ -68,7 +68,7 @@ class Contract extends Abstracts {
         $txid = $pushContract = Bytom::pushContract([
             'byid'  => $currentUser['byid'],
             'program'  => $program,
-            'password'  => 'skdjfsjfksdf',
+            'password'  => $currentUser['password'],
         ]);
 
         if (!$txid) {

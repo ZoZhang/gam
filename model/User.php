@@ -520,7 +520,7 @@ class User extends Abstracts {
         $activationKey = Core::getActivationKey();
 
         //Synchronise Via Bytom
-        $bytomAccountId = Bytom::createAccount($data['email'], $data['password']);
+        $bytomAccountId = Bytom::createAccount($data['email'], $passwrod);
 
         if (!$bytomAccountId) {
             return $response;

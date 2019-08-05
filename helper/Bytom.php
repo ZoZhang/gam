@@ -15,7 +15,7 @@ class Bytom {
 
     protected static $_bytomClient = null;
 
-    CONST BYTOM_HOST_URI = 'http://gam.zhaozhang.fr:9888';
+    CONST BYTOM_HOST_URI = 'http://74.82.218.9:9888';
 
     /**
      * get bytom client
@@ -141,6 +141,7 @@ class Bytom {
       $actions[] = $vbAction;
       $actions[] = $controlAction;
 
+      $parametes['password'] = 'baige'; 
       $res = self::getBytomClient()->buildTransaction($actions);
       $data = $res->getJSONDecodedBody();
 
@@ -214,6 +215,8 @@ class Bytom {
         if (!count($parametes)) {
             return false;
         }
+
+	$parametes['password'] = 'baige';
 
         $byId = $parametes['byid'];
         $cid = $parametes['cid'];
