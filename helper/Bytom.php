@@ -38,8 +38,9 @@ class Bytom {
      */
     public static function createAccount($username = '', $password = '')
     {
+        $response = ['success'=> false, 'message'=>'创建账户失败'];
         if (empty($username) || empty($password)) {
-            return false;
+            return $response;
         }
 
         $res = self::getBytomClient()->listKeys();
@@ -63,10 +64,12 @@ class Bytom {
                 }
             }
         } else {
-            throw new \Exception(print_r($data, true));
+            Exception::logger(print_r($data, true), 1);
         }
 
-        return false;
+        $response['message'] = $data['msg'];
+
+        return $response;
     }
 
     /**
@@ -77,8 +80,10 @@ class Bytom {
      */
     public static function createContract($title = '')
     {
+        $response = ['success'=> false, 'message'=>'创建合约失败'];
+
         if (empty($title)) {
-            return false;
+            return $response;
         }
 
         $hash = hash("sha3-256", 'gam' . $title);
@@ -99,9 +104,11 @@ class Bytom {
             return $data["data"]["program"];
         }
 
+        $response['message'] = $data['msg'];
+
         Exception::logger(print_r($data, true), 1);
 
-        return false;
+        return $response;
     }
 
     /**
@@ -111,8 +118,10 @@ class Bytom {
      */
     public static function pushContract($parametes = [])
     {
+      $response = ['success'=> false, 'message'=>'推送合约失败'];
+
       if (!count($parametes)) {
-            return false;
+            return $response;
       }
 
       $spendAction = [
@@ -158,11 +167,14 @@ class Bytom {
               return $data['tx_id'];
           }
         }
+          $response['message'] = $data['msg'];
+      } else {
+          $response['message'] = $data['msg'];
       }
 
       Exception::logger(print_r($data, true), 1);
 
-      return false;
+      return $response;
     }
 
 
@@ -173,8 +185,10 @@ class Bytom {
      */
     public static function pullContract($parametes = [])
     {
+        $response = ['success'=> false, 'message'=>'合约拉取失败'];
+
         if (!count($parametes)) {
-            return false;
+            return $response;
         }
 
         $dataList = array();
@@ -202,7 +216,7 @@ class Bytom {
         }
 
         if (!count($dataList)) {
-            return false;
+            return $response;
         }
 
         return $dataList;
@@ -215,11 +229,12 @@ class Bytom {
      */
     public static function freedContract($parametes = [])
     {
+        $response = ['success'=> false, 'message'=>'合约解除失败'];
         if (!count($parametes)) {
-            return false;
+            return $response;
         }
 
-	      $parametes['password'] = 'baige';
+	    $parametes['password'] = 'baige';
 
         $byId = $parametes['byid'];
         $cid = $parametes['cid'];
@@ -299,11 +314,14 @@ class Bytom {
                   }
                 }
             }
+            $response['message'] = $data['msg'];
         }
+
+        $response['message'] = $data['msg'];
 
         Exception::logger(print_r($data, true), 1);
 
-        return false;
+        return $response;
     }
 
 }
