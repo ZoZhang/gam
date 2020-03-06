@@ -1,37 +1,29 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.0
+-- https://www.phpmyadmin.net/
 --
--- Structure de la table `customer`
---
+-- Hôte : mariadb
+-- Généré le :  ven. 06 mars 2020 à 20:35
+-- Version du serveur :  10.4.11-MariaDB-1:10.4.11+maria~bionic
+-- Version de PHP :  7.1.33
 
-CREATE TABLE `customer` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Customer ID',
-  `byid` varchar(255) DEFAULT NULL COMMENT 'Address Bytom',
-  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `username` varchar(255) DEFAULT NULL COMMENT 'Customer Name',
-  `avatar` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `is_active` smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Is Active',
-  `password` varchar(128) DEFAULT NULL COMMENT 'Password_hash',
-  `type` varchar(64) DEFAULT NULL COMMENT 'Customer Type',
-  `confirmation` varchar(255) DEFAULT NULL COMMENT 'Is Confirmed',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Updated At'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 --
--- Index pour les tables déchargées
+-- Base de données :  `gam`
 --
 
---
--- Index pour la table `customer`
---
-ALTER TABLE `customer`
-  ADD PRIMARY KEY (`id`);
+-- --------------------------------------------------------
 
 --
 -- Structure de la table `contract`
 --
 
 CREATE TABLE `contract` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Contract ID',
+  `id` int(11) UNSIGNED NOT NULL COMMENT 'Contract ID',
   `customer_id` int(11) UNSIGNED NOT NULL COMMENT 'Customer ID',
   `delegation_id` int(11) DEFAULT NULL COMMENT 'Eelegation Customer Id',
   `title` varchar(255) NOT NULL COMMENT 'Title',
@@ -48,6 +40,42 @@ CREATE TABLE `contract` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 --
+-- Déchargement des données de la table `contract`
+--
+
+INSERT INTO `contract` (`id`, `customer_id`, `delegation_id`, `title`, `reward`, `content`, `status`, `push`, `txid`, `cid`, `program`, `locked`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '[测试]测试数据。。', 200, '这只是一个简单的测试数据。', 'CREATED', 1, 'ACJxxbvsWVmGjMGXGxNxRLcWET3YZnJdamX', 'dmCNpUTqZYWqBugmnZmcvFHerRXcJsXK6MJRmB', 'mmqQFvLKpYnoVeYTbyvmxCFNGgAgraFJCXbK9FNiFQX', 1, '2020-03-06 19:10:06', '2020-03-06 19:25:01'),
+(2, 2, 1, '[测试]求区域链在未来发展前景', 1000, '如题：区块链未来发展前景如何？链上的资产真的可以等价现实资产吗？没有具体的数据做参考？', 'CREATED', 1, 'xxbvsWVmGjM2ssdGxNxRLcWET3YZnJdamX', 'U41Tq32FzxdWqBugmnZmddscvFHerRXcJsXK6MJRmB', 'mmqQFvbyvmxCFNGgA1d22SdWSi4graFJCXbK9FNiFQX', 1, '2020-03-06 19:10:06', '2020-03-06 19:25:01');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id` int(11) UNSIGNED NOT NULL COMMENT 'Customer ID',
+  `byid` varchar(255) DEFAULT NULL COMMENT 'Address Bytom',
+  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
+  `username` varchar(255) DEFAULT NULL COMMENT 'Customer Name',
+  `avatar` varchar(255) DEFAULT NULL COMMENT 'Email',
+  `is_active` smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Is Active',
+  `password` varchar(128) DEFAULT NULL COMMENT 'Password_hash',
+  `type` varchar(64) DEFAULT NULL COMMENT 'Customer Type',
+  `confirmation` varchar(255) DEFAULT NULL COMMENT 'Is Confirmed',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Updated At'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+
+--
+-- Déchargement des données de la table `customer`
+--
+
+INSERT INTO `customer` (`id`, `byid`, `email`, `username`, `avatar`, `is_active`, `password`, `type`, `confirmation`, `created_at`, `updated_at`) VALUES
+(1, 'tpegumNPjD7cBBKHjkyfrGM', 'zo.zhang@gmail.com', 'zozhang', NULL, 1, '098f6bcd4621d373cade4e832627b4f6', NULL, '1', '2020-03-06 19:07:22', '2020-03-06 19:13:06'),
+(2, '332D7cBBKHjkyfrGMd2ss', 'test@gmail.com', 'test', NULL, 1, 'esf6bcd5321d373ddcade498337b4f6', NULL, '1', '2020-03-06 19:07:22', '2020-03-06 19:24:48');
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -56,3 +84,26 @@ CREATE TABLE `contract` (
 --
 ALTER TABLE `contract`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `contract`
+--
+ALTER TABLE `contract`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Contract ID', AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Customer ID', AUTO_INCREMENT=3;
+COMMIT;

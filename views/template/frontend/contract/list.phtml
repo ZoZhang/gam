@@ -26,13 +26,13 @@
                         <th scope="col">状态</th>
                         <th scope="col">发布时间</th>
                         <th scope="col">操作</th>
-                    </tr>
+                    </tr> 
                     </thead>
                     <tbody>
                     <?php foreach(static::$_responses['contracts'] as $contact):?>
                         <tr>
                             <th scope="row"><?=$contact->id?></th>
-                            <td><?=$contact->title?></td>
+                            <td class="text-left"><?=$contact->title?></td>
                             <td><?=$contact->reward?></td>
                             <td><?=$status[$contact->status]?></td>
                             <td><?=$contact->created_at?></td>

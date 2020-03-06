@@ -19,7 +19,7 @@ Trait Config {
         ],
 		'store' => [
 		      'url' => '',
-				'contact' => '',
+				'contact' => 'admin',
 				'email' => 'no-replay@gam.com'
 			],
 		'sendGrid' => [
